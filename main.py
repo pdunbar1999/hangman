@@ -1,4 +1,5 @@
 import random
+#variables needed
 lst = ["dog", "cat", "peter"]
 
 
@@ -64,7 +65,7 @@ while True:
         continue
         
             
-    print (test)#prints the word
+    print (test)#prints the word to show what you got right or wrong
     
     if word == ''.join(test): #converts the list into a string, comparing it to the word
         print("Congrats, you got the word!")
