@@ -29,9 +29,8 @@ basePole = pygame.transform.scale(basePole, (800,500))
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 #Now, gameDisplay is the screen we will be working with
 
-count = 0
-def add_body_parts(count):
-    count += 1
+
+def add_body_parts():
     if count == 1: #head
         pygame.draw.circle(gameDisplay, black, (634, 106), 50)
         pygame.display.update()
@@ -56,10 +55,12 @@ def add_body_parts(count):
     
 
 
-gameExit = False
 gameDisplay.blit(basePole, (0,0))
-count = 0
 #displays background image once
+
+count = 0
+gameExit = False
+
 while not gameExit: #while True
     for event in pygame.event.get():
         print(event) #prints events in the game
@@ -70,8 +71,10 @@ while not gameExit: #while True
             quit()
 
         if event.type == pygame.KEYDOWN:#checks if key is pressed down
-            if event.key == pygame.K_s: #checks what key (K_s), s is key
-                add_body_parts(count)
+            if event.key == pygame.K_p: #checks what key (K_s), s is key
+                
+                count = count + 1
+                add_body_parts()
                     
                 
 
