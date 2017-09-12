@@ -58,6 +58,10 @@ def add_body_parts():
 gameDisplay.blit(basePole, (0,0))
 #displays background image once
 
+
+####this is a test
+
+
 count = 0
 gameExit = False
 
