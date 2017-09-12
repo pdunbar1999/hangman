@@ -121,13 +121,16 @@ def letter_check(letter):
             del string_word[x]
             string_word.insert(x, guess)
             check += 1
+    
     if check == 0: #if its 0, means the letter wasn't right
         add_body_parts() #adds a body part
+        
 
 
 def display_word(): #displays the incompleted word at the bottom
+    gameDisplay.fill(black, [0,500, 800, 100])
     q = pygame.font.SysFont('none', 100) #specifes the font wanted and the font size
-    x = q.render('  '.join(string_word), True, white) #.join turns the string into a list with spaces inbetween it.
+    x = q.render(' '.join(string_word), True, white) #.join turns the string into a list with spaces inbetween it.
     gameDisplay.blit(x, (100,500)) #displays the word onto the screen
     
 
@@ -136,7 +139,7 @@ gameDisplay.blit(basePole, (0,0))
 
 gameExit = False
 
-word = 'mother' #TESTING PURPOSES ONLY
+word = 'peter' #TESTING PURPOSES ONLY
 string_word = []#reserving an empty list to put the word in
 
 for x in range(0,len(word)):
@@ -153,17 +156,20 @@ while not gameExit: #while True
             quit()
 
         if event.type == pygame.KEYDOWN:#checks if key is pressed down
-            ask_for_letter()
-
-
+            ask_for_letter()            
+               
+    display_word()
+    pygame.display.update() #updates the screen so we can see it
+    
     if lives_remaining == 6:
         print("You lost")
         gameExit = True
         pygame.QUIT
         quit()
-            
-               
-    display_word()
-    pygame.display.update() #updates the screen so we can see it
+
+    if word == ''.join(string_word): #converts the list into a string, comparing it 
+        print("Congrats, you got the word!")
+        break
+
 
     
