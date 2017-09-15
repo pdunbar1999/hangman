@@ -34,6 +34,7 @@ global lives_remaining
 lives_remaining = 0 #number of lives
 
 def start_screen():
+    time.sleep(.1)
     global event
     start_screen = True
     while start_screen:
@@ -44,7 +45,7 @@ def start_screen():
         pygame.display.update()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            break
+            start_screen = False
 
 def add_body_parts():
     global lives_remaining #global so it knows its a global
@@ -143,6 +144,7 @@ def letter_check(letter):
 
 
 def display_word(): #displays the incompleted word at the bottom
+    global string_word
     gameDisplay.fill(black, [0,500, 800, 100]) #fills the screen where the word is black so the image can reset everytime a new letter is passed in
     q = pygame.font.SysFont('none', 100) #specifes the font wanted and the font size
     x = q.render(' '.join(string_word), True, white) #.join turns the string into a list with spaces inbetween it.
@@ -157,24 +159,20 @@ def quit_button(): #function for the quitbutton in the game
         x = t.render('QUIT', True, white) #writes QUIT again because it was highlighted over
         pygame.display.update()
         if event.type == pygame.MOUSEBUTTONDOWN:
-            start_screen()
+            return 1 #returns 1
     else:
         pygame.draw.rect(gameDisplay, black, (25,40,100,50)) #black rectangle 
         t = pygame.font.SysFont('none', 50)
         x = t.render('QUIT', True, white)
         gameDisplay.blit(x, (30,50)) #displays the word quit
     
-word = 'peter' #TESTING PURPOSES ONLY
-string_word = []#reserving an empty list to put the word in
-
-for x in range(0,len(word)):
-    string_word.append("_")
-    #adds _ to however many letters are needed
-
-    
 def game_loop():
+    global lives_remaining
+    lives_remaining = 0 #number of lives
+    
     gameDisplay.blit(basePole, (0,0))
     #displays background image once
+    
     global event #so it can be used later
     gameExit = False
     while not gameExit: #while True
@@ -189,7 +187,8 @@ def game_loop():
             if event.type == pygame.KEYDOWN:#checks if key is pressed down
                 ask_for_letter()            
 
-        quit_button()
+        if quit_button() == 1: #quit_button returns 1 if its pressed
+            break #breaks out of this while loop
         display_word()
         pygame.display.update() #updates the screen so we can see it
         
@@ -201,10 +200,20 @@ def game_loop():
 
         if word == ''.join(string_word): #converts the list into a string, comparing it 
             print("Congrats, you got the word!")
-            break
+            time.sleep(2)
+            gameExit = True
 
-start_screen()
-game_loop()
-pygame.QUIT
-quit()
+while True:
+    start_screen()
+    
+    word = 'peter' #TESTING PURPOSES ONLY
+    string_word = []#reserving an empty list to put the word in
+    
+    for x in range(0,len(word)):
+        string_word.append("_")
+        #adds _ to however many letters are needed
+        
+    game_loop()
+    
+
     
