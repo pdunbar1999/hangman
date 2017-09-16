@@ -30,12 +30,43 @@ basePole = pygame.transform.scale(basePole, (800,500))
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 #Now, gameDisplay is the screen we will be working with
 
-global lives_remaining
-lives_remaining = 0 #number of lives
+def pick_word():
+    lst = [
+    'table','crab','cloud','finger','broom',
+    'bug','bridge','monster','bunk bed','tree',
+    'beach','bowl','hand','hamburger','whale',
+    'spoon','kite','shoe','socks','square',
+    'candle','alligator','lion','lips','smile',
+    'corn','blanket','heart','cherry','sun',
+    'hat','swing','drum','light','monkey',
+    'dinosaur','star','wheel','ant','bus',
+    'ghost','ocean','bunny','snowman','bed',
+    'caterpillar','branch','elephant','pencil','tail',
+    'stairs','boat','bird','pants','legs',
+    'flower','sunglasses','butterfly','bracelet','door',
+    'lollipop','lizard','bread','pig','skateboard',
+    'lamp','pizza','cookie','cupcake','carrot',
+    'grapes','inchworm','ring','robot','ball',
+    'spider web','grass','duck','face','desk',
+    'bear','circle','giraffe','cat','mouse',
+    'boy','jar','airplane','seashell','nose',
+    'car','moon','glasses','train','basketball',
+    'chicken','balloon','truck','computer','book',
+    'lemon','ears','dog','doll','slide',
+    'banana','milk','clock','helicopter','cow',
+    'leaf','octopus','bone','motorcycle','apple',
+    'horse','jellyfish','shirt',
+    'head','spider','water','snowflake','house',
+    'cheese','football','mouth','orange','girl',
+    'ear','bike','pie','worm','egg',
+    'dragon','pen','eyes','snail','cup',
+    'snake','feet','coat','frog','baby']
+    x = random.randint(0,142) #gets a random int the size of the lst
+    return lst[x] #returns the word
+    
 
 def start_screen():
     time.sleep(.1)
-    global event
     start_screen = True
     while start_screen:
         for event in pygame.event.get():
@@ -45,7 +76,8 @@ def start_screen():
         pygame.display.update()
 
         if event.type == pygame.MOUSEBUTTONDOWN:
-            start_screen = False
+            #start_screen = False
+            game_loop()
 
 def add_body_parts():
     global lives_remaining #global so it knows its a global
@@ -74,7 +106,6 @@ def add_body_parts():
 
 
 def ask_for_letter():
-    global event
     #checks what key was pressed down
     if event.key == pygame.K_a: #checks what key (K_s), s is key
         letter_check('a') #passes the pressed key into letter_check
@@ -144,14 +175,19 @@ def letter_check(letter):
 
 
 def display_word(): #displays the incompleted word at the bottom
-    global string_word
     gameDisplay.fill(black, [0,500, 800, 100]) #fills the screen where the word is black so the image can reset everytime a new letter is passed in
     q = pygame.font.SysFont('none', 100) #specifes the font wanted and the font size
     x = q.render(' '.join(string_word), True, white) #.join turns the string into a list with spaces inbetween it.
     gameDisplay.blit(x, (100,500)) #displays the word onto the screen
 
+def word_if_lost(): #displays word if you ran out of lives
+    gameDisplay.fill(black, [0,500, 800, 100]) #fills the screen where the word is black so the image can reset everytime a new letter is passed in
+    q = pygame.font.SysFont('none', 100) #specifes the font wanted and the font size
+    x = q.render(' '.join(word), True, white) #shows the word
+    gameDisplay.blit(x, (100,500)) #displays the word onto the screen
+    pygame.display.update()
+
 def quit_button(): #function for the quitbutton in the game
-    global event
     mouse = pygame.mouse.get_pos()
     if 25 + 100 > mouse [0] > 25 and 40 + 50 > mouse[1] > 40:
         pygame.draw.rect(gameDisplay, yellow, (25,40,100,50)) #highlights the rectangle
@@ -167,6 +203,16 @@ def quit_button(): #function for the quitbutton in the game
         gameDisplay.blit(x, (30,50)) #displays the word quit
     
 def game_loop():
+    global word
+    word = pick_word() #calls the functions
+    global string_word
+    string_word = []#reserving an empty list to put the word in
+    
+    for x in range(0,len(word)):
+        string_word.append("_")
+        #adds _ to however many letters are needed
+        
+
     global lives_remaining
     lives_remaining = 0 #number of lives
     
@@ -188,32 +234,26 @@ def game_loop():
                 ask_for_letter()            
 
         if quit_button() == 1: #quit_button returns 1 if its pressed
-            break #breaks out of this while loop
+            start_screen() #breaks out of this while loop
+            #break
         display_word()
         pygame.display.update() #updates the screen so we can see it
         
         if lives_remaining == 6:
-            print("You lost")
-            gameExit = True
-            pygame.QUIT
-            quit()
+            word_if_lost()
+            time.sleep(2)
+            start_screen()
 
         if word == ''.join(string_word): #converts the list into a string, comparing it 
             print("Congrats, you got the word!")
             time.sleep(2)
             gameExit = True
 
-while True:
-    start_screen()
-    
-    word = 'peter' #TESTING PURPOSES ONLY
-    string_word = []#reserving an empty list to put the word in
-    
-    for x in range(0,len(word)):
-        string_word.append("_")
-        #adds _ to however many letters are needed
-        
-    game_loop()
+
+            
+#main loop of the game
+start_screen()
+game_loop()
     
 
     
