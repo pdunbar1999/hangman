@@ -60,8 +60,8 @@ def pick_word():
     'cheese','football','mouth','orange','girl',
     'ear','bike','pie','worm','egg',
     'dragon','pen','eyes','snail','cup',
-    'snake','feet','coat','frog','baby']
-    x = random.randint(0,142) #gets a random int the size of the lst
+    'snake','feet','coat','frog','baby', 'nagger']
+    x = random.randint(0,143) #gets a random int the size of the lst
     return lst[x] #returns the word
     
 
