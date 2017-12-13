@@ -4,6 +4,8 @@ lst = ["dog", "cat", "peter"]
 
 # Hello World
 
+# I am adding a comment
+
 #Gets the random word
 def get_word():
     a = random.randint(0,2)
