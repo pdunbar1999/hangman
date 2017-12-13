@@ -2,6 +2,7 @@ import random
 #variables needed
 lst = ["dog", "cat", "peter"]
 
+# Hello World
 
 #Gets the random word
 def get_word():
